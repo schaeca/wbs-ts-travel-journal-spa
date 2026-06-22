@@ -1,6 +1,8 @@
+import { useAuth } from '@/context';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { toast } from 'react-toastify';
+//import { login } from '@/data';
 
 type LoginFormState = {
   email: string;
@@ -8,6 +10,7 @@ type LoginFormState = {
 };
 
 const Login = () => {
+  const { handleSignIn } = useAuth()
   const [{ email, password }, setForm] = useState<LoginFormState>({
     email: '',
     password: '',
@@ -22,9 +25,15 @@ const Login = () => {
     try {
       if (!email || !password) throw new Error('All fields are required');
       setLoading(true);
-      console.log(email, password);
+      // console.log(email, password);
       // TODO: Add login logic
-      toast.success('Login attempted (not implemented)');
+      // const data = await login({email, password})
+      // const message = data.message
+      // const accessToken = data.accessToken
+      // localStorage.setItem("accessToken", accessToken)
+      // toast.success(message);
+      await handleSignIn({email, password})
+      toast.success("Logged in successfully")
     } catch (error: unknown) {
       const message = (error as { message: string }).message;
       toast.error(message);

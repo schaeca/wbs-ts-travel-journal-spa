@@ -9,7 +9,7 @@ type EditModalProps = {
 	content: string;
 	image: string;
 	title: string;
-	author: string;
+	// author: string;
 	setPost: SetPost;
 };
 
@@ -19,12 +19,12 @@ const EditModal = ({
 	content,
 	image,
 	title,
-	author,
+	// author,
 	setPost
 }: EditModalProps) => {
-	const [{ newTitle, newAuthor, newImage, newContent }, setForm] = useState({
+	const [{ newTitle, /*newAuthor,*/ newImage, newContent }, setForm] = useState({
 		newTitle: title,
-		newAuthor: author,
+		// newAuthor: author,
 		newImage: image,
 		newContent: content
 	});
@@ -39,12 +39,12 @@ const EditModal = ({
 		try {
 			e.preventDefault();
 
-			if (!newTitle || !newAuthor || !newImage || !newContent)
+			if (!newTitle || /*!newAuthor ||*/ !newImage || !newContent)
 				throw new Error('All fields are required');
 			setLoading(true);
 			const updatedPost = await updatePost(_id, {
 				title: newTitle,
-				author: newAuthor,
+				// author: newAuthor,
 				image: newImage,
 				content: newContent
 			});
@@ -83,7 +83,7 @@ const EditModal = ({
 								className='input input-bordered w-full'
 							/>
 						</label>
-						<label className='form-control grow'>
+						{/* <label className='form-control grow'>
 							<div className='label-text'>Author</div>
 							<input
 								name='author'
@@ -92,7 +92,7 @@ const EditModal = ({
 								placeholder='Your name...'
 								className='input input-bordered w-full'
 							/>
-						</label>
+						</label> */}
 					</div>
 					<label className='form-control w-full'>
 						<div className='label-text'>Image URL</div>
