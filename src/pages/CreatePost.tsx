@@ -6,9 +6,9 @@ import { createPost } from '@/data';
 
 const CreatePost = () => {
 	const navigate = useNavigate();
-	const [{ title, author, image, content }, setForm] = useState<PostInput>({
+	const [{ title, /*author,*/ image, content }, setForm] = useState<PostInput>({
 		title: '',
-		author: '',
+		//author: '',
 		image: '',
 		content: ''
 	});
@@ -21,17 +21,17 @@ const CreatePost = () => {
 	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		try {
 			e.preventDefault();
-			if (!title || !author || !image || !content) {
+			if (!title || /*!author ||*/ !image || !content) {
 				throw new Error('All fields are required');
 			}
 			setLoading(true);
 			const newPost: DbPost = await createPost({
 				title,
-				author,
+				//author,
 				image,
 				content
 			});
-			setForm({ title: '', author: '', image: '', content: '' });
+			setForm({ title: '', /*author: '',*/ image: '', content: '' });
 			navigate(`/post/${newPost._id}`);
 		} catch (error: unknown) {
 			const message = (error as { message: string }).message;
@@ -57,7 +57,7 @@ const CreatePost = () => {
 						className='input input-bordered w-full'
 					/>
 				</label>
-				<label className='form-control grow'>
+				{/* <label className='form-control grow'>
 					<div className='label-text'>Author</div>
 					<input
 						name='author'
@@ -66,7 +66,7 @@ const CreatePost = () => {
 						placeholder='Your name...'
 						className='input input-bordered w-full'
 					/>
-				</label>
+				</label> */}
 			</div>
 			<label className='form-control w-full'>
 				<div className='label-text'>Image URL</div>

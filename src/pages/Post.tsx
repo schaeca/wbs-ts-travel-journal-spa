@@ -57,7 +57,7 @@ const Post = () => {
 					image={post.image}
 					title={post.title}
 					content={post.content}
-					author={post.author}
+					// author={post.author}
 					setPost={setPost}
 				/>
 
