@@ -4,8 +4,11 @@ import { toast } from 'react-toastify';
 import type { DbPost } from '@/types';
 import { getSinglePost } from '@/data';
 import { PostSkeleton, EditModal, DeleteModal } from '@/components';
+import { useAuth } from '@/context';
 
 const Post = () => {
+	const {user} = useAuth()
+
 	const { id } = useParams<{ id: string }>();
 	const [loading, setLoading] = useState(true);
 	const [post, setPost] = useState<DbPost | null>(null);
@@ -47,7 +50,9 @@ const Post = () => {
 				alt={post.title}
 				className='rounded-lg max-h-96 mx-auto'
 			/>
-			<div className='flex justify-center gap-6 my-4'>
+			{(user?._id === post.author._id || user?.roles?.includes("admin")) && (
+
+				<div className='flex justify-center gap-6 my-4'>
 				<button onClick={showEditModal} className='btn btn-success'>
 					Edit
 				</button>
@@ -59,13 +64,14 @@ const Post = () => {
 					content={post.content}
 					// author={post.author}
 					setPost={setPost}
-				/>
+					/>
 
 				<button onClick={showDeleteModal} className='btn btn-error'>
 					Delete
 				</button>
 				<DeleteModal deleteModalRef={deleteModalRef} _id={post._id} />
 			</div>
+				)}
 			<p>{post.content}</p>
 		</>
 	);

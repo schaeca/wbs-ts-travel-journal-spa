@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import type { PostInput, DbPost } from '@/types';
 import { createPost } from '@/data';
+import { useAuth } from '@/context';
 
 const CreatePost = () => {
+	const{user} = useAuth()
 	const navigate = useNavigate();
-	const [{ title, /*author,*/ image, content }, setForm] = useState<PostInput>({
+	const [{ title, /*author,*/ image, content }, setForm] = useState<Omit<PostInput, "author">>({
 		title: '',
 		//author: '',
 		image: '',
@@ -24,10 +26,12 @@ const CreatePost = () => {
 			if (!title || /*!author ||*/ !image || !content) {
 				throw new Error('All fields are required');
 			}
+			if (!user?._id) {
+        	throw new Error('Please sign in to create post');
+      		}
 			setLoading(true);
 			const newPost: DbPost = await createPost({
 				title,
-				//author,
 				image,
 				content
 			});

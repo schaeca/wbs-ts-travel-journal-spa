@@ -8,7 +8,12 @@ export type DbEntry = {
 
 export type PostInput = {
 	title: string;
-	// author: string;
+	author: {
+		_id: string,
+		firstName: string,
+		lastName: string,
+		email: string
+	};
 	image: string;
 	content: string;
 };
@@ -19,21 +24,19 @@ export type SetPost = Dispatch<SetStateAction<DbPost | null>>;
 
 export type ModalRef = RefObject<HTMLDialogElement | null>;
 
-export type User = {
+export type User = DbEntry & {
 	firstName: string, 
 	lastName: string,
     email: string,
-    password?: string,
     roles?: string[],
-	id?: string
 }
 
 export type AuthContextType = {
 	signedIn: boolean,
 	user: User | null,
-	handleSignIn: (object: LoginData) => void,
-	handleSignOut: () => void,
-	handleRegister: (object: RegisterData) => void
+	handleSignIn: ({email, password}: LoginData) => Promise<void>,
+	handleSignOut: () => Promise<void>,
+	handleRegister: (formState: RegisterData) => Promise<void>
 }
 
 export type RegisterData = {
@@ -41,6 +44,7 @@ export type RegisterData = {
     password: string;
     firstName: string;
     lastName: string;
+	confirmPassword: string
 }
 
 export type LoginData = {
