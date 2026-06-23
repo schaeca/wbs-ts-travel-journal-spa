@@ -1,6 +1,6 @@
 import { useAuth } from '@/context';
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, Navigate } from 'react-router';
 import { toast } from 'react-toastify';
 //import { login } from '@/data';
 
@@ -10,7 +10,7 @@ type LoginFormState = {
 };
 
 const Login = () => {
-  const { handleSignIn } = useAuth()
+  const { handleSignIn, signedIn } = useAuth()
   const [{ email, password }, setForm] = useState<LoginFormState>({
     email: '',
     password: '',
@@ -27,11 +27,6 @@ const Login = () => {
       setLoading(true);
       // console.log(email, password);
       // TODO: Add login logic
-      // const data = await login({email, password})
-      // const message = data.message
-      // const accessToken = data.accessToken
-      // localStorage.setItem("accessToken", accessToken)
-      // toast.success(message);
       await handleSignIn({email, password})
       toast.success("Logged in successfully")
     } catch (error: unknown) {
@@ -41,6 +36,8 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  if (signedIn) return <Navigate to="/create"/>
 
   return (
     <form className='my-5 md:w-1/2 mx-auto flex flex-col gap-3' onSubmit={handleSubmit}>

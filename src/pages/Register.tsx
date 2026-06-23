@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, Navigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { useAuth } from '@/context';
 
@@ -12,7 +12,7 @@ type RegisterFormState = {
 };
 
 const Register = () => {
-  const { handleRegister } = useAuth()
+  const { handleRegister, signedIn } = useAuth()
   const [{ firstName, lastName, email, password, confirmPassword }, setForm] = useState<RegisterFormState>({
     firstName: '',
     lastName: '',
@@ -34,7 +34,7 @@ const Register = () => {
       setLoading(true);
       // console.log(firstName, lastName, email, password, confirmPassword);
       // TODO: Implement registration logic
-      await handleRegister({firstName, lastName, email, password})
+      await handleRegister({firstName, lastName, email, password, confirmPassword})
       toast.success('Registered successfully')
     } catch (error: unknown) {
       const message = (error as { message: string }).message;
@@ -43,6 +43,8 @@ const Register = () => {
       setLoading(false);
     }
   };
+
+  if (signedIn) return <Navigate to="/create"/>
 
   return (
     <form className='my-5 md:w-1/2 mx-auto flex flex-col gap-3' onSubmit={handleSubmit}>

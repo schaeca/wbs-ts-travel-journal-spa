@@ -27,7 +27,7 @@ export const getSinglePost = async (id: string): Promise<DbPost> => {
 	return data;
 };
 
-export const createPost = async (formData: PostInput): Promise<DbPost> => {
+export const createPost = async (formData: Omit<PostInput, "author">): Promise<DbPost> => {
 	const accessToken = localStorage.getItem("accessToken")
 	const res = await fetch(baseURL, {
 		method: 'POST',
@@ -46,7 +46,7 @@ export const createPost = async (formData: PostInput): Promise<DbPost> => {
 };
 export const updatePost = async (
 	id: string,
-	formData: PostInput
+	formData: Omit<PostInput, "author">
 ): Promise<DbPost> => {
 	const accessToken = localStorage.getItem("accessToken")
 	const res = await fetch(`${baseURL}/${id}`, {

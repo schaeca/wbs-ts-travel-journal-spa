@@ -2,7 +2,7 @@ import { useAuth } from '@/context';
 import { Link, NavLink } from 'react-router';
 
 const Navbar = () => {
-  const { signedIn, handleSignOut } = useAuth() 
+  const { signedIn, handleSignOut, user } = useAuth() 
   return (
     <div className='navbar bg-base-100'>
       <div className='flex-1'>
@@ -16,7 +16,8 @@ const Navbar = () => {
           </span>
         </Link>
       </div>
-      <div className='flex-none'>
+      <div className='flex'>
+        {user && (<p className='my-3 px-1'>Welcome back, {user.firstName} {user.lastName}</p>)}
         <ul className='menu menu-horizontal px-1'>
           <li>
             <NavLink to='/'>Home</NavLink>
